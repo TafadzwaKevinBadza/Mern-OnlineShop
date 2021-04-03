@@ -9,12 +9,12 @@ const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
     shippindAddress,
-    paymentmethod,
+    paymentMethod,
     itemsPrice,
-    shippingPrice,
     taxPrice,
+    shippingPrice,
     totalPrice,
-  } = res.body
+  } = req.body
 
   if (orderItems && orderItems.length === 0) {
     res.status(400)
@@ -25,10 +25,10 @@ const addOrderItems = asyncHandler(async (req, res) => {
       orderItems,
       user: req.user._id,
       shippindAddress,
-      paymentmethod,
+      paymentMethod,
       itemsPrice,
-      shippingPrice,
       taxPrice,
+      shippingPrice,
       totalPrice,
     })
 
