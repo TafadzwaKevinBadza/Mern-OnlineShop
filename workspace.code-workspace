@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "..\\python\\Auto-messages"
+		},
+		{
+			"path": "..\\online shop"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"emmet.triggerExpansionOnTab": true,
+		"emmet.includeLanguages": {
+			"javascriptreact": "javascriptreact",
+			"javascript": "javascript",
+			"html": "html",
+			"vue-html": "vue-html",
+			"css": "css"
+		},
+		"editor.formatOnSave": true,
+		"prettier.semi": false
+	}
+}
