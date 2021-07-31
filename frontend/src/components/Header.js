@@ -39,7 +39,7 @@ const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <LinkContainer to='/Login'>
+                <LinkContainer to='/login'>
                   <Nav.Link>
                     {' '}
                     <i className='fas fa-user'></i> Sign In
