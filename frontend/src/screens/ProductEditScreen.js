@@ -11,6 +11,7 @@ import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id
+
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
   const [image, setImage] = useState('')
@@ -18,7 +19,7 @@ const ProductEditScreen = ({ match, history }) => {
   const [category, setCategory] = useState('')
   const [countInStock, setCountInStock] = useState(0)
   const [description, setDescription] = useState('')
-  const [uploading, setUploading] = useState('false')
+  const [uploading, setUploading] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -49,7 +50,7 @@ const ProductEditScreen = ({ match, history }) => {
         setDescription(product.description)
       }
     }
-  }, [product, dispatch, productId, history, successUpdate])
+  }, [dispatch, history, productId, product, successUpdate])
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
@@ -63,6 +64,7 @@ const ProductEditScreen = ({ match, history }) => {
           'Content-Type': 'multipart/form-data',
         },
       }
+
       const { data } = await axios.post('/api/upload', formData, config)
 
       setImage(data)
@@ -72,9 +74,9 @@ const ProductEditScreen = ({ match, history }) => {
       setUploading(false)
     }
   }
+
   const submitHandler = (e) => {
     e.preventDefault()
-
     dispatch(
       updateProduct({
         _id: productId,
@@ -91,15 +93,13 @@ const ProductEditScreen = ({ match, history }) => {
 
   return (
     <>
-      <Link to='/admin/productlist' className='btn btn-dark my-3'>
-        {' '}
+      <Link to='/admin/productlist' className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
         <h1>Edit Product</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
-
         {loading ? (
           <Loader />
         ) : error ? (
@@ -110,27 +110,27 @@ const ProductEditScreen = ({ match, history }) => {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type='name'
-                placeholder='Enter Product Name'
+                placeholder='Enter name'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
             <Form.Group controlId='price'>
-              <Form.Label>Price in Rands (R)</Form.Label>
+              <Form.Label>Price in Rands</Form.Label>
               <Form.Control
                 type='number'
-                placeholder='Enter Product Price'
+                placeholder='Enter price'
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
             <Form.Group controlId='image'>
-              <Form.Label>Product Image</Form.Label>
+              <Form.Label>Image</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Enter Product Image URL'
+                placeholder='Enter image url'
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
@@ -144,40 +144,40 @@ const ProductEditScreen = ({ match, history }) => {
             </Form.Group>
 
             <Form.Group controlId='brand'>
-              <Form.Label>Product Brand</Form.Label>
+              <Form.Label>Brand</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Enter Product Brand Name'
+                placeholder='Enter brand'
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='category'>
-              <Form.Label>Product Category</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter Product Category'
-                value={category}
-                onChange={(e) => setBrand(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-
-            <Form.Group controlId='price'>
-              <Form.Label> Set Stock Count</Form.Label>
+            <Form.Group controlId='countInStock'>
+              <Form.Label>Count In Stock</Form.Label>
               <Form.Control
                 type='number'
-                placeholder='Enter Product Stock'
+                placeholder='Enter countInStock'
                 value={countInStock}
                 onChange={(e) => setCountInStock(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='description'>
-              <Form.Label>Product Description</Form.Label>
+            <Form.Group controlId='category'>
+              <Form.Label>Category</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Enter Product Description'
+                placeholder='Enter category'
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='description'>
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter description'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></Form.Control>

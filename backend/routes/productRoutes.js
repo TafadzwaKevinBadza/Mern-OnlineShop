@@ -3,7 +3,7 @@ const router = express.Router()
 import {
   getProducts,
   deleteProduct,
-  getProductsById,
+  getProductById,
   createProduct,
   updateProduct,
   createProductReview,
@@ -16,7 +16,7 @@ router.route('/top').get(getTopProducts)
 router.route('/:id/reviews').post(protect, createProductReview)
 router
   .route('/:id')
-  .get(getProductsById)
+  .get(getProductById)
   .delete(protect, admin, deleteProduct)
   .put(protect, admin, updateProduct)
 

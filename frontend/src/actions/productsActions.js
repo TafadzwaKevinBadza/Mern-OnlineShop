@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
@@ -7,8 +6,8 @@ import {
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
-  PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
+  PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_FAIL,
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_SUCCESS,
@@ -23,6 +22,7 @@ import {
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
 } from '../constants/productConstants'
+import { logout } from './userActions'
 
 export const listProducts =
   (keyword = '', pageNumber = '') =>
@@ -75,6 +75,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     dispatch({
       type: PRODUCT_DELETE_REQUEST,
     })
+
     const {
       userLogin: { userInfo },
     } = getState()
@@ -84,18 +85,23 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
+
     await axios.delete(`/api/products/${id}`, config)
 
     dispatch({
       type: PRODUCT_DELETE_SUCCESS,
     })
   } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout())
+    }
     dispatch({
       type: PRODUCT_DELETE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: message,
     })
   }
 }
@@ -105,6 +111,7 @@ export const createProduct = () => async (dispatch, getState) => {
     dispatch({
       type: PRODUCT_CREATE_REQUEST,
     })
+
     const {
       userLogin: { userInfo },
     } = getState()
@@ -114,6 +121,7 @@ export const createProduct = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
+
     const { data } = await axios.post(`/api/products`, {}, config)
 
     dispatch({
@@ -121,12 +129,16 @@ export const createProduct = () => async (dispatch, getState) => {
       payload: data,
     })
   } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout())
+    }
     dispatch({
       type: PRODUCT_CREATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: message,
     })
   }
 }
@@ -136,6 +148,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
     dispatch({
       type: PRODUCT_UPDATE_REQUEST,
     })
+
     const {
       userLogin: { userInfo },
     } = getState()
@@ -157,13 +170,18 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       type: PRODUCT_UPDATE_SUCCESS,
       payload: data,
     })
+    dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data })
   } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout())
+    }
     dispatch({
       type: PRODUCT_UPDATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: message,
     })
   }
 }
@@ -174,6 +192,7 @@ export const createProductReview =
       dispatch({
         type: PRODUCT_CREATE_REVIEW_REQUEST,
       })
+
       const {
         userLogin: { userInfo },
       } = getState()
@@ -184,18 +203,23 @@ export const createProductReview =
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
+
       await axios.post(`/api/products/${productId}/reviews`, review, config)
 
       dispatch({
         type: PRODUCT_CREATE_REVIEW_SUCCESS,
       })
     } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      if (message === 'Not authorized, token failed') {
+        dispatch(logout())
+      }
       dispatch({
         type: PRODUCT_CREATE_REVIEW_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
+        payload: message,
       })
     }
   }

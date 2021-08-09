@@ -12,16 +12,13 @@ const ShippingScreen = ({ history }) => {
   const [address, setAddress] = useState(shippingAddress.address)
   const [city, setCity] = useState(shippingAddress.city)
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
-  const [province, setProvince] = useState(shippingAddress.province)
   const [country, setCountry] = useState(shippingAddress.country)
 
   const dispatch = useDispatch()
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(
-      saveShippingAddress({ address, city, postalCode, province, country })
-    )
+    dispatch(saveShippingAddress({ address, city, postalCode, country }))
     history.push('/payment')
   }
 
@@ -34,7 +31,7 @@ const ShippingScreen = ({ history }) => {
           <Form.Label>Address</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Enter your Address'
+            placeholder='Enter address'
             value={address}
             required
             onChange={(e) => setAddress(e.target.value)}
@@ -45,7 +42,7 @@ const ShippingScreen = ({ history }) => {
           <Form.Label>City</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Enter your City'
+            placeholder='Enter city'
             value={city}
             required
             onChange={(e) => setCity(e.target.value)}
@@ -56,21 +53,10 @@ const ShippingScreen = ({ history }) => {
           <Form.Label>Postal Code</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Enter your Postal Code'
+            placeholder='Enter postal code'
             value={postalCode}
             required
             onChange={(e) => setPostalCode(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId='province'>
-          <Form.Label>Province</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter your Province'
-            value={province}
-            required
-            onChange={(e) => setProvince(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
@@ -78,12 +64,13 @@ const ShippingScreen = ({ history }) => {
           <Form.Label>Country</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Enter your Country'
+            placeholder='Enter country'
             value={country}
             required
             onChange={(e) => setCountry(e.target.value)}
           ></Form.Control>
         </Form.Group>
+
         <Button type='submit' variant='primary'>
           Continue
         </Button>
